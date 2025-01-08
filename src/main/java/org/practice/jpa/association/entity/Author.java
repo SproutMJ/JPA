@@ -27,7 +27,7 @@ public final class Author {
     private Long id;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @OrderColumn
+    @JoinColumn(name = "author_id")
     private List<Book> books = new ArrayList<>();
 
     public void addBook(final Book book) {
