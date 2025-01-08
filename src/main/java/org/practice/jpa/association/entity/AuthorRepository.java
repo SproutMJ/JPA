@@ -1,4 +1,4 @@
-package org.practice.jpa.association.bidirectionalontomany.entity;
+package org.practice.jpa.association.entity;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
