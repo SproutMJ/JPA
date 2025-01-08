@@ -5,7 +5,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OrderColumn;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,6 +27,7 @@ public final class Author {
     private Long id;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OrderColumn
     private List<Book> books = new ArrayList<>();
 
     public void addBook(final Book book) {
