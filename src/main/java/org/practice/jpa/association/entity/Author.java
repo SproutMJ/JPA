@@ -13,9 +13,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 @Getter
 @NoArgsConstructor
@@ -32,10 +32,14 @@ public final class Author {
             joinColumns = @JoinColumn(name = "author_id"),
             inverseJoinColumns = @JoinColumn(name = "book_id")
     )
-    private Set<Book> books = new HashSet<>();
+    private List<Book> books = new ArrayList<>();
 
     public void addBook(final Book book) {
         books.add(book);
+    }
+
+    public void removeBook(final Book book) {
+        books.remove(book);
     }
 
     @Override

@@ -10,9 +10,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 @Getter
 @NoArgsConstructor
@@ -25,7 +25,7 @@ public class Book {
     private Long id;
 
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "books")
-    private Set<Author> authors = new HashSet<>();
+    private List<Author> authors = new ArrayList<>();
 
     @Override
     public boolean equals(Object o) {
