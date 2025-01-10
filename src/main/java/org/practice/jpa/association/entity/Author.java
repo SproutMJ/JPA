@@ -2,19 +2,20 @@ package org.practice.jpa.association.entity;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OrderColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Getter
 @NoArgsConstructor
@@ -26,9 +27,12 @@ public final class Author {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "author_id")
-    private List<Book> books = new ArrayList<>();
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(name = "author_book",
+            joinColumns = @JoinColumn(name = "author_id"),
+            inverseJoinColumns = @JoinColumn(name = "book_id")
+    )
+    private Set<Book> books = new HashSet<>();
 
     public void addBook(final Book book) {
         books.add(book);
@@ -44,11 +48,11 @@ public final class Author {
     @Override
     public boolean equals(Object o) {
         if (!(o instanceof Author author)) return false;
-        return Objects.equals(id, author.id) && Objects.equals(books, author.books);
+        return Objects.equals(id, author.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, books);
+        return Objects.hash(id);
     }
 }
