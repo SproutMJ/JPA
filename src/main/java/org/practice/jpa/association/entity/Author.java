@@ -7,6 +7,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.NamedAttributeNode;
 import jakarta.persistence.NamedEntityGraph;
+import jakarta.persistence.NamedSubgraph;
 import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -21,9 +22,17 @@ import java.util.Objects;
 @AllArgsConstructor
 @Entity
 @NamedEntityGraph(
-        name = "author-books-graph",
+        name = "author-books-publisher-graph",
         attributeNodes = {
-                @NamedAttributeNode("books")
+                @NamedAttributeNode(value = "books", subgraph = "publisher-subgraph")
+        },
+        subgraphs = {
+                @NamedSubgraph(
+                        name = "publisher-subgraph",
+                        attributeNodes = {
+                                @NamedAttributeNode("publisher")
+                        }
+                )
         }
 )
 public final class Author {

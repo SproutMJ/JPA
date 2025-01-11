@@ -11,7 +11,7 @@ import java.util.List;
 public interface AuthorRepository extends JpaRepository<Author, Long> {
 
     @Override
-    @EntityGraph(value = "author-books-graph",
+    @EntityGraph(value = "author-books-publisher-graph",
         type = EntityGraph.EntityGraphType.FETCH)
     List<Author> findAll();
 }
