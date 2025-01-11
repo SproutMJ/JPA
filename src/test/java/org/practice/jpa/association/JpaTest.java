@@ -8,6 +8,7 @@ import org.practice.jpa.association.entity.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
 
@@ -22,7 +23,10 @@ class JpaTest {
 
     Author author = new Author();
 
-    List<Book> books = Arrays.asList(new Book(), new Book(), new Book());
+    List<Book> books = Arrays.asList(
+            new Book(null, null, new BigDecimal(100), null),
+            new Book(null, null, new BigDecimal(10), null),
+            new Book(null, null, new BigDecimal(1000), null));
 
     @Test
     void selectBook() {
@@ -36,6 +40,9 @@ class JpaTest {
         authorRepository.flush();
         bookRepository.flush();
 
-        authorRepository.findAll();
+        List<Book> cheaperThan100 = savedAuthor.getCheaperThan100();
+        for(Book book : cheaperThan100){
+            System.out.println("book = " + book);
+        }
     }
 }

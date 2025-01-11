@@ -12,6 +12,7 @@ import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Where;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,6 +45,11 @@ public final class Author {
     @OneToMany(cascade = CascadeType.ALL,
             mappedBy = "author", orphanRemoval = true)
     private List<Book> books = new ArrayList<>();
+
+    @OneToMany(cascade = CascadeType.ALL,
+            mappedBy = "author", orphanRemoval = true)
+    @Where(clause = "price <= 100")
+    private List<Book> cheaperThan100 = new ArrayList<>();
 
     public void addBook(final Book book) {
         books.add(book);
