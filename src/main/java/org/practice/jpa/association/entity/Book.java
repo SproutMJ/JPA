@@ -3,11 +3,9 @@ package org.practice.jpa.association.entity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.MapsId;
+import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,18 +20,14 @@ import java.util.Objects;
 public class Book {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ManyToOne
+    @MapsId
+    @OneToOne(fetch = FetchType.LAZY)
     private Author author;
 
     @Column(nullable = false)
     private BigDecimal price;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "publisher_id")
-    private Publisher publisher;
 
     @Override
     public boolean equals(Object o) {
