@@ -25,7 +25,7 @@ class JpaTest {
     List<Book> books = Arrays.asList(new Book(), new Book(), new Book());
 
     @Test
-    void deleteLastBook() {
+    void selectBook() {
         Author savedAuthor = authorRepository.save(author);
 
         for (Book book : books) {
@@ -36,10 +36,6 @@ class JpaTest {
         authorRepository.flush();
         bookRepository.flush();
 
-        List<Book> authorBooks = savedAuthor.getBooks();
-        authorBooks.remove(books.get(0));
-
-        authorRepository.flush();
-        bookRepository.flush();
+        authorRepository.findAll();
     }
 }
