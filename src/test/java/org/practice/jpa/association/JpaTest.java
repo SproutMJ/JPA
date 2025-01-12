@@ -1,16 +1,15 @@
 package org.practice.jpa.association;
 
+import jakarta.persistence.EntityManager;
+import jakarta.transaction.Transactional;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.practice.jpa.association.entity.Author;
 import org.practice.jpa.association.entity.AuthorRepository;
 import org.practice.jpa.association.entity.Book;
 import org.practice.jpa.association.entity.BookRepository;
-import org.practice.jpa.association.entity.Publisher;
-import org.practice.jpa.association.entity.PublisherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-
-import java.math.BigDecimal;
 
 @DataJpaTest
 class JpaTest {
@@ -22,24 +21,37 @@ class JpaTest {
     BookRepository bookRepository;
 
     @Autowired
-    PublisherRepository publisherRepository;
+    EntityManager entityManager;
 
-    Author author = new Author();
+    Author author;
 
-    Book book = new Book();
-
-    Publisher publisher = new Publisher();
+    @Transactional
+    @BeforeEach
+    void setUp() {
+        author = new Author(null, "John Doe");
+        author = authorRepository.save(author);
+        authorRepository.flush();
+    }
 
     @Test
-    void selectBook() {
-        Author savedAuthor = authorRepository.save(author);
-        publisher = publisherRepository.save(publisher);
-        book.setPrice(new BigDecimal(100));
+    void proxy() {
+        authorRepository.getReferenceById(author.getId());
 
-        book.setAuthor(savedAuthor);
-        book.setPublisher(publisher);
+        Book book = new Book(null, author);
 
-        Book savedBook = bookRepository.save(book);
+        book = bookRepository.save(book);
+
+        authorRepository.flush();
+        bookRepository.flush();
+    }
+
+    @Test
+    void object() {
+        authorRepository.findById(author.getId());
+
+        Book book = new Book(null, author);
+
+        book = bookRepository.save(book);
 
         authorRepository.flush();
         bookRepository.flush();

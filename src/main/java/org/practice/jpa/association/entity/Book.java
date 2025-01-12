@@ -1,6 +1,5 @@
 package org.practice.jpa.association.entity;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -12,10 +11,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.math.BigDecimal;
 import java.util.Objects;
 
-@OneOfAssociation
 @Setter
 @Getter
 @NoArgsConstructor
@@ -29,12 +26,6 @@ public class Book {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Author author;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Publisher publisher;
-
-    @Column(nullable = false)
-    private BigDecimal price;
 
     @Override
     public boolean equals(Object o) {
